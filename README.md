@@ -24,9 +24,12 @@ Visit [Chit-Chat](https://chitchat-chir.netlify.app/) and follow these steps:
 
 ### Features 👩‍💻
 
-- **Inspired by WhatsApp:** Developed with a user-friendly interface inspired by the popular messaging app.
-- **Chit-Chat GPT:** Enjoy the added feature of sending GPT-generated responses to your friends.
-- **Real-time Updates:** Know when your friends are online or typing for a truly immersive chat environment.
+- **User-Friendly Interface:** Create an intuitive and clean UI inspired by WhatsApp for a seamless user experience.
+- **GPT-Generated Responses:** Enable users to send GPT-generated responses within the chat interface.
+- **Real-Time Updates with Socket.IO:** Implement Socket.IO for real-time communication, updating users on friend activities instantly.
+- **Framer Motion for Animations:** Utilize Framer Motion to add visually appealing animations for transitions and interactive elements.
+- **Form Validation with Yup:** Ensure accurate user inputs by implementing form validation using Yup.
+- **Overall:** Develop Chit-Chat GPT as a feature-rich messaging app with real-time updates, GPT responses, and an intuitive UI.
 
 ### Exciting Times Ahead! 🌟
 
