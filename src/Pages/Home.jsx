@@ -10,6 +10,8 @@ import io from "socket.io-client";
 import { useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
 import { IoIosContact } from "react-icons/io";
+import { driver } from "driver.js";
+import "driver.js/dist/driver.css";
 
 // Encryption function
 const encryptData = (data, secretKey) => {
@@ -50,6 +52,137 @@ function Home() {
   const sendmailtrue = useRef("true");
   const gptres = useRef("");
 
+  // check mobile width or not
+  const isMobile = window.innerWidth < 600;
+
+  // driverjs
+  let steps = [
+    {
+      element: "#main",
+      popover: {
+        title: "Guide",
+        description: "Let make you a tour guide. How to start with.",
+      },
+    },
+    {
+      element: "#aside",
+      popover: {
+        title: "Side Bar",
+        description: "For navigating message section or any other section",
+      },
+    },
+    {
+      element: "#message-icon",
+      popover: {
+        title: "Message",
+        description: "Click here to go for message section",
+      },
+    },
+    {
+      element: "#phone-icon",
+      popover: {
+        title: "Phone",
+        description: "This is to call someone. It will come soon",
+      },
+    },
+    {
+      element: "#logout-icon",
+      popover: { title: "LogOut", description: "Click here to logout" },
+    },
+  ];
+
+  if (isMobile) {
+    steps.push(
+      {
+        element: "#contact-icon",
+        popover: {
+          title: "Contact",
+          description: "Click here and select whom you want to chat",
+        },
+      },
+      {
+        element: "#search-bar",
+        popover: {
+          title: "Search Bar",
+          description:
+            "Click here and search anyone using their email. If exists it will display",
+        },
+      },
+      {
+        element: "#message-send-icon",
+        popover: {
+          title: "Message Send",
+          description: "Click message icon to send message",
+        },
+      },
+      {
+        element: "#chatgpt-icon",
+        popover: {
+          title: "Chatgpt Response",
+          description:
+            "Once you typed your question then click gpt icon to send chatgpt response to your friend",
+        },
+      },
+      {
+        element: "#main",
+        popover: {
+          title: "Thank you",
+          description:
+            "Thank you for your time. Now you can enjoy the app by yourself. Hope you will like this App",
+        },
+      }
+    );
+  } else {
+    steps.push(
+      {
+        element: "#search-bar",
+        popover: {
+          title: "Search Bar",
+          description:
+            "Click here and search anyone using their email. If exists it will display",
+        },
+      },
+      {
+        element: "#message-send-icon",
+        popover: {
+          title: "Message Send",
+          description: "Click message icon to send message",
+        },
+      },
+      {
+        element: "#chatgpt-icon",
+        popover: {
+          title: "Chatgpt Response",
+          description:
+            "Once you typed your question then click gpt icon to send chatgpt response to your friend",
+        },
+      },
+      {
+        element: "#main",
+        popover: {
+          title: "Thank you",
+          description:
+            "Thank you for your time. Now you can enjoy the app by yourself. Hope you will like this App",
+        },
+      }
+    );
+  }
+
+  const driverObj = driver({
+    showProgress: true,
+    allowClose: false,
+    steps: steps,
+  });
+
+  useEffect(() => {
+    const guide = localStorage.getItem("guide") || "";
+    if (guide === "false" || guide === "") {
+      driverObj.drive();
+      localStorage.setItem("guide", "true");
+    }
+  }, []);
+
+  // for framer motion
   const fadeInVariants = {
     hidden: {
       opacity: 0,
@@ -57,7 +190,7 @@ function Home() {
     visible: {
       opacity: 1,
       transition: {
-        duration: 1, // Adjust the duration as needed
+        duration: 1,
       },
     },
   };
@@ -580,21 +713,29 @@ function Home() {
       variants={fadeInVariants}
     >
       <ToastContainer />
-      <section className="flex w-full mt-3 h-full">
+      <section className="flex w-full mt-3 h-full" id="main">
         {/* side section */}
-        <aside className="text-white space-y-4 flex flex-col justify-between mt-4">
+        <aside
+          id="aside"
+          className="text-white space-y-4 flex flex-col justify-between mt-4"
+        >
           <div>
             <BiMessageRoundedDetail
+              id="message-icon"
               className="text-4xl ml-2 cursor-pointer text-white p-2 sm:hover:text-black  hover:bg-gray-700 rounded"
               onClick={handleopenchatsection}
             />
-            <FiPhoneCall className="text-4xl ml-2 cursor-pointer text-white p-2 sm:hover:text-black  hover:bg-gray-700 rounded" />
+            <FiPhoneCall
+              id="phone-icon"
+              className="text-4xl ml-2 cursor-pointer text-white p-2 sm:hover:text-black  hover:bg-gray-700 rounded"
+            />
             <IoIosContact
+              id="contact-icon"
               className="sm:hidden text-4xl ml-2 cursor-pointer text-white p-2 sm:hover:text-black  hover:bg-gray-700 rounded"
               onClick={handleopencontact}
             />
           </div>
-          <div>
+          <div id="logout-icon">
             <AiOutlineLogout
               onClick={logout}
               className="text-4xl mb-10 ml-2 cursor-pointer text-white p-2 sm:hover:text-black  hover:bg-gray-700 rounded"
@@ -610,7 +751,10 @@ function Home() {
             } sm:block min-w-[12rem] mr-4 sm:mr-0 sm:w-1/3 overflow-auto border border-black bg-whatsappbg3 rounded-md h-full p-2`}
           >
             <span>
-              <span className="bg-whatsappbg2 w-full flex rounded sticky top-0">
+              <span
+                className="bg-whatsappbg2 w-full flex rounded sticky top-0"
+                id="search-bar"
+              >
                 <input
                   type="text"
                   className="p-2 w-full rounded bg-whatsappbg2 focus:outline-none text-white text-sm placeholder:text-white placeholder:text-sm"
